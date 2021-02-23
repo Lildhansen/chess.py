@@ -76,6 +76,22 @@ def displayAllPieces(whitePieces,blackPieces):
 def activatePieceBasedOnPosition(position):
     x,y = gamePosToCodePos(position)
     print(x,y)
+    for whitePiece in whitePieces:
+        if type(whitePiece) == list:
+            for pawn in whitePiece:
+                if x == pawn.pos[0] and y == pawn.pos[1]:
+                    pawn.selectPiece()
+        else:
+            if x == whitePiece.pos[0] and y == whitePiece.pos[1]:
+                whitePiece.selectPiece() 
+    for blackPiece in blackPieces:
+        if type(blackPiece) == list:
+            for pawn in blackPiece:
+                if x == pawn.pos[0] and y == pawn.pos[1]:
+                    pawn.selectPiece()
+        else:
+            if x == blackPiece.pos[0] and y == blackPiece.pos[1]:
+                blackPiece.selectPiece() 
 
 
 def createBoardDisplay():

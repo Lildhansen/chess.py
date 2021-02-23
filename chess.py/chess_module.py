@@ -24,16 +24,21 @@ class ChessPiece():
             self.image = pg.image.load("chess_Pieces\\white\\" + type + ".png")   
         else:
             self.image = pg.image.load("chess_Pieces\\black\\" + type + ".png")  
-    def changePos():
-        pass
-    def die():
-        pass
+    def changePos(self):
+        print("pos change")
+    def highlightPiece(self): #denne funktion kan ikke bruges men hvis den slettes er jeg bange for den fucker - den kan dog bruges af ekslusivt af blackPawns
+        print(self.pos)
         #fjern instance af den
         #gør pladsen til 0
+    def die(self):
+        print("die")
+    def selectPiece(self):
+        print(self.pos)
+
 
 
 class King(ChessPiece):
-    def __init__(self,isWhite,startPosition): #position = [x,y] where x and y range from 1-8 (inclusive)
+    def __init__(self,isWhite,startPosition): #position = [x,y] where x and y range from 1-8 (both inclusive) (top left is [1,1])
         if isWhite == True:
             ChessPiece.__init__(self,startPosition,True,"King")
         else:
@@ -71,3 +76,4 @@ class Pawn(ChessPiece): #bonde
             ChessPiece.__init__(self,startPosition,True,"Pawn")
         else:
             ChessPiece.__init__(self,startPosition,False,"Pawn")
+
