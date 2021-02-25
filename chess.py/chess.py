@@ -13,7 +13,7 @@ cm.displayBoard(x)
 pygame.init()
 logo = pygame.image.load("logo2.png")
 pygame.display.set_icon(logo)
-window = pygame.display.set_mode((960,960)) #120 * 8 =960, so each tile is 120x120
+#window = pygame.display.set_mode((960,960)) #120 * 8 =960, so each tile is 120x120
 pygame.display.set_caption("Chess")
 
 #creating white pieces
@@ -63,19 +63,18 @@ def displayAllPieces(whitePieces,blackPieces):
     for piece in whitePieces:
         if type(piece) == list:
             for pawn in piece:
-                window.blit(pawn.image,codePosToGamePos(pawn.pos))
+                cm.window.blit(pawn.image,codePosToGamePos(pawn.pos))
         else:
-           window.blit(piece.image,codePosToGamePos(piece.pos))
+           cm.window.blit(piece.image,codePosToGamePos(piece.pos))
     for piece in blackPieces:
         if type(piece) == list:
             for pawn in piece:
-                window.blit(pawn.image,codePosToGamePos(pawn.pos))
+                cm.window.blit(pawn.image,codePosToGamePos(pawn.pos))
         else:
-           window.blit(piece.image,codePosToGamePos(piece.pos))
+           cm.window.blit(piece.image,codePosToGamePos(piece.pos))
 
 def activatePieceBasedOnPosition(position):
     x,y = gamePosToCodePos(position)
-    print(x,y)
     for whitePiece in whitePieces:
         if type(whitePiece) == list:
             for pawn in whitePiece:
@@ -93,25 +92,37 @@ def activatePieceBasedOnPosition(position):
             if x == blackPiece.pos[0] and y == blackPiece.pos[1]:
                 blackPiece.selectPiece() 
 
+def isSquareEmpty(clickedPos): #return what piece it is, otherwise returns false. also un-selects the other pieces
+     for whitePiece in whitePieces:
+        if type(whitePiece) == list:
+            for pawn in whitePiece:
+                if pawn.isSelected:
+                    pawn.unSelectPiece()
+                if pawn.hitBox.collidepoint(clickedPos):
+                    pawn.selectPiece()
+        else:
+            if whitePiece.isSelected:
+                whitePiece.unSelectPiece()
+            if whitePiece.hitBox.collidepoint(clickedPos):
+                whitePiece.selectPiece() 
+     for blackPiece in blackPieces:
+        if type(blackPiece) == list:
+            for pawn in blackPiece:
+                if pawn.isSelected:
+                    pawn.unSelectPiece()
+                if pawn.hitBox.collidepoint(clickedPos):
+                    pawn.selectPiece()
+        else:
+            if blackPiece.isSelected:
+                blackPiece.unSelectPiece()
+            if blackPiece.hitBox.collidepoint(clickedPos):
+                blackPiece.selectPiece() 
 
-def createBoardDisplay():
-    startPos = 120
-    for y in range(8):
-        for x in range(8):
-            if y % 2 == 0:
-                if x % 2 == 0:
-                    color = 211
-                else:
-                    color = 50
-            else:
-                if x % 2 == 0:
-                    color = 50
-                else:
-                    color = 211
-            pygame.draw.rect(window,(color,color,color),(startPos*x,startPos*y,120,120))
 
 
-createBoardDisplay()
+
+
+cm.createBoardDisplay()
 running = True
 
 while running:
@@ -120,7 +131,8 @@ while running:
             running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             clickedPos = pygame.mouse.get_pos()
-            activatePieceBasedOnPosition(clickedPos)
+            #activatePieceBasedOnPosition(clickedPos)
+            isSquareEmpty(clickedPos)
         pygame.display.update()
     displayAllPieces(whitePieces,blackPieces)
 pygame.quit()
